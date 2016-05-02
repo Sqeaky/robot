@@ -122,7 +122,6 @@ set(TestHeaderFileList
 	"${TestHeaderDir}Targa.h"
 	"${TestHeaderDir}Test.h"
 )
-
 DisplayList("Test Header Files" "${TestHeaderFileList}")
 
 ################################################################################
@@ -203,7 +202,6 @@ endif(CompilerIsGCC)
 ################################################################################
 # System Specific Settings
 
-
 if(CompilerDesignNix)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 endif(CompilerDesignNix)
@@ -212,12 +210,6 @@ if(CompilerIsMsvc)
     # Put msvc compiler flags here.
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3") 
 endif(CompilerIsMsvc)
-
-if(SystemIsWindows AND CompilerIsGCC)
-    # Put mingw compiler flags here.
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-endif(SystemIsWindows AND CompilerIsGCC)
-
 
 ################################################################################
 # Make build targets
@@ -234,7 +226,7 @@ endif(SystemIsWindows AND CompilerIsGCC)
 # targets.
 
 add_library(Robot "${BuildType}" "${HeaderFileList}" "${SourceFileList}")
-add_executable(Test "${TestHeaderFileList}" "${TestSourceFileList}")
+add_executable(TestRobot "${TestHeaderFileList}" "${TestSourceFileList}")
 
 ################################################################################
 # Link Build Targets
@@ -258,7 +250,10 @@ if(SystemIsWindows AND CompilerIsGCC)
 endif(SystemIsWindows AND CompilerIsGCC)
 
 target_link_libraries(Robot "${LinkLibraries}")
-target_link_libraries(Test Robot)
+
+target_link_libraries(TestRobot Robot)
+set_target_properties(TestRobot PROPERTIES SUFFIX ".BIN")
+set_target_properties(TestRobot PROPERTIES OUTPUT_NAME "Test")
 
 if(NOT BuildStatic)
     # Adds the definition when building robot
@@ -267,23 +262,11 @@ if(NOT BuildStatic)
     target_compile_definitions(Robot INTERFACE -DUSING_ROBOT_SHARED)
 endif(NOT BuildStatic)
 
-
-
-
 # TODO
 # install process
 # d in debug build
 # objective C++ and other mac stuff
 # All of Peon
-# .BIN in the names
 # Figure out any special VS specific logic. I don't think is any beyound /W3
-
-
-
-
-
-
-
-
 
 
