@@ -74,7 +74,7 @@
 // Compilers                                                                  //
 //----------------------------------------------------------------------------//
 
-#if(_MSC_VER)
+#if defined(_MSC_VER)
 
     #define ROBOT_VS_COMPILER_GROUP
 
