@@ -242,11 +242,19 @@ add_executable(Test "${TestHeaderFileList}" "${TestSourceFileList}")
 set(LinkLibraries "")
 
 if(SystemIsLinux)
-    set(LinkLibraries ${LinkLibraries} rt X11 Xtst Xinerama)
+    # rt & X11 - Seem unneeded build succeeded without it
+    # These lines search the path and common include directories for the
+    # platform this allows for more platforms to be supported as long as they
+    # expose some way that the cmake knows how to look for them
+    find_library(Xtst_lib Xtst)
+    find_library(Xinerama_lib Xinerama)
+    set(LinkLibraries ${LinkLibraries} ${Xtst_lib} ${Xinerama_lib})
 endif(SystemIsLinux)
 
 if(SystemIsWindows AND CompilerIsGCC)
-    set(LinkLibraries ${LinkLibraries} Shlwapi psapi)
+    find_library(Shlwapi_lib Shlwapi)
+    find_library(psapi_lib psapi)
+    set(LinkLibraries ${LinkLibraries} ${Shlwapi_lib} ${psapi_lib})
 endif(SystemIsWindows AND CompilerIsGCC)
 
 target_link_libraries(Robot "${LinkLibraries}")
