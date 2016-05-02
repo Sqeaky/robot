@@ -108,7 +108,6 @@ set(TestSourceFileList
 	"${TestSourceDir}Main.cc"
 	"${TestSourceDir}Memory.cc"
 	"${TestSourceDir}Mouse.cc"
-#	"${TestSourceDir}Peon.cc"
 	"${TestSourceDir}Process.cc"
 	"${TestSourceDir}Screen.cc"
 	"${TestSourceDir}Targa.cc"
@@ -123,6 +122,11 @@ set(TestHeaderFileList
 	"${TestHeaderDir}Test.h"
 )
 DisplayList("Test Header Files" "${TestHeaderFileList}")
+
+#set(PeonSourceFileList
+#	"${TestSourceDir}Peon.cc"
+#)
+#DisplayList("Peon Source Files" "${PeonSourceFileList}")
 
 ################################################################################
 # Detect Platform
@@ -227,6 +231,11 @@ endif(CompilerIsMsvc)
 
 add_library(Robot "${BuildType}" "${HeaderFileList}" "${SourceFileList}")
 add_executable(TestRobot "${TestHeaderFileList}" "${TestSourceFileList}")
+    set_target_properties(TestRobot PROPERTIES SUFFIX ".BIN")
+    set_target_properties(TestRobot PROPERTIES OUTPUT_NAME "Test")
+#add_executable(TestPeon "${PeonSourceFileList}")
+#    set_target_properties(TestPeon PROPERTIES SUFFIX ".BIN")
+#    set_target_properties(TestPeon PROPERTIES OUTPUT_NAME "Peon")
 
 ################################################################################
 # Link Build Targets
@@ -250,10 +259,8 @@ if(SystemIsWindows AND CompilerIsGCC)
 endif(SystemIsWindows AND CompilerIsGCC)
 
 target_link_libraries(Robot "${LinkLibraries}")
-
 target_link_libraries(TestRobot Robot)
-set_target_properties(TestRobot PROPERTIES SUFFIX ".BIN")
-set_target_properties(TestRobot PROPERTIES OUTPUT_NAME "Test")
+#target_link_libraries(TestPeon Robot)
 
 if(NOT BuildStatic)
     # Adds the definition when building robot
@@ -266,7 +273,7 @@ endif(NOT BuildStatic)
 # install process
 # d in debug build
 # objective C++ and other mac stuff
-# All of Peon
+# Peon Offset details
 # Figure out any special VS specific logic. I don't think is any beyound /W3
 
 
