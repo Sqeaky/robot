@@ -29,7 +29,7 @@ some that were specifically targeted to work with Robot:
 
 ## Using Cmake
 
-You can read the [official CMake Tutorial](https://cmake.org/cmake-tutorial/) or get a brief versions here. Choose if you want to use the command like or the cmake-gui. The command line is easier to automate and can be called from your IDE, continuous integration system or other automation, but the cmake-gui could be easier to learn and allow easier access to options
+You can read the [official CMake Tutorial](https://cmake.org/cmake-tutorial/) or get a brief versions here. Choose if you want to use the command like or the cmake-gui. The command line is easier to automate and can be called from your IDE, continuous integration system or other automation, but the cmake-gui could be easier to learn and allow easier access to options.
 
 ### CMake Command Line
 
@@ -51,7 +51,7 @@ Then depending on your platform and compiler toolchaing you can will use a comma
 
 This glosses over many important details.
 
-#### Generators
+#### Generators on the Command Line
 
 The line `cmake ../robot` has many potential options. The folder being passed is the source directory and the current directory will be used as the output directory.
 
@@ -77,7 +77,7 @@ cmake ../robot -G"Ninja"
 
 Just passing `-G` and generator will determine what build system is used. This might determine the compiler as well, because not all build systems are compatible with all compilers. Some generators will provide different support for different IDEs like Eclipse, Code::Blocks, Borland and Codelite.
 
-#### CMake variables
+#### CMake variables on the Command Line
 
 If you want to change any of the [Useful CMake variables](http://www.vtk.org/Wiki/CMake_Useful_Variables#Compilers_and_Tools) including `CMAKE_BUILD_TYPE` for debug/release or `CMAKE_CXX_COMPILER` for the compiler you can do this with the -D flag. If not specified a sane minimal setting for any variable will be used. Here are some examples for setting compiler flags in groups for debug or release optimization:
 
@@ -101,7 +101,7 @@ One option that was added custom in Robot is a switch for enabling or disabling 
 cmake ../robot -DBuildStatic=OFF
 ```
 
-#### Putting it Together
+#### Putting it Together on the Command line
 
 These options can be combined almost arbitrarily. The following example will build a release version of robot with the ninja build system and the clang compiler to make a dynamic library:
 
@@ -110,6 +110,56 @@ cmake ../robot -G"Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang -
 ```
 
 ### CMake-gui
-The use
-https://cmake.org/runningcmake/
+The GUI for CMake can be easier to use, but cannot readily be automated. For a single developer or small team just looking to build the software or interact with it the GUI is a good choice.
+
+To use the GUI you will want to install cmake from the windows installer from the [CMake Downloads Page](https://cmake.org/download/) or from the `cmake-gui` package from your system's package manager. This should install the command line tool and a program that shows a simple dialog window for setting CMake options.
+
+#### CMake-gui UI element breakdown
+There are 3 main parts to the CMake-gui. 
+
+The upper portion accepts input about where to retrieve source and where to leave build artifacts. 
+
+![Image of CMake-gui Upper area](https://raw.githubusercontent.com/Sqeaky/robot/master/images/CMakeGuiScreenshotUpper.png)
+
+This is pretty self explanatory, put the folder with the source code you checked out in the first box. Then, put the folder you want your DLLs, SOs, EXEs, and BINs into the second box. These could be the same folder, but that needlessly complicates certain tasks (commiting to git, finding files, cleaning the build, etc...) and is considered poor form.
+
+The middle area is concerned with setting CMake variables. The widgets above the large central box are for managing variables and changing the view of the central variables box
+
+![Image of CMake-gui Middle area](https://raw.githubusercontent.com/Sqeaky/robot/master/images/CMakeGuiScreenshotMiddle.png)
+
+If your version of CMake has a search box it is for filtering the view of the list of variables because some projects have hundreds. 
+
+The "Grouped" and "Advanced" checkboxes are two other ways to change the view, and are generally not required for working with Robot. The "Grouped" checkbox changes the central box to list items like a tree, grouping everything with similar prefixes before their first underscore ("_"). Some projects prefix all their variables with something similar, this project only has 1 meaningful variable.
+
+Any given CMake variable can be flagged as Advanced. Normally Advanced variables are not shown in the GUI, checking the "Advanced" box shows them. CMake creates many variables that can be used for fine tuning things like build options and file names. Sane default are chose for the Robot and these do not normally need to be adjusted.
+
+The "Add Entry" button allows creation of new variables, but this generally has little effect unless a given project reads but never sets a variable, there are no extra variables that Robot will read that are not already shown. The "Remove Entry" button erases a variable, generally this can only cause problems, don't use this.
+
+The central variable display will display each variable on its own line. The left will have the variable name and the right will have some way to adjust the variable. Boolean values will get a checkbox. String variables can have anything typed. Filename and Folder variables have a file entry box and can display a file chooser by clicking the elipses ("...") on their extreme right on most platforms.
+
+Variables that are new are displayed in red, variables that have existed for at least one configuration run are displayed in white.
+
+The bottom area includes buttons for making CMake run and displaying the results.
+
+![Image of CMake-gui Lower area](https://raw.githubusercontent.com/Sqeaky/robot/master/images/CMakeGuiScreenshotLower.png)
+
+The large white output pane at the bottom is where almost all of the results will be shown. Errors and Warnings will show in red text and everything else in black.
+
+The "Configure" button runs the CMake script in the `CMakeLists.txt` of the source folder, but does not emit any build scripts. This can be use for troubleshooting and not overwriting existing build scripts. If you click this and have not selected a "Generator" it will present you with a screen to select one. Robot is reasonably well test will the newer versions of GCC, Clang, Visual Studio and MinGW. Of course try others and let us know how it works out.
+
+The "Generate" button will actually produce build files. Once this runs without error you should be able to use the results to build robot or open it in you build tools to hack on Robot.
+
+There is also a progress bar in the bottom area on the right it is largely useless.
+
+#### Adjusting Settings from the GUI
+
+Once you open CMake first set the source and build folders. You will need to have the source code already checked out from github, CMake does not do that.
+
+If no variables are displayed in the central box click configure and select a Generator/Toolchain to use for building robot. Be careful, it will let you select something non-sensical be sure you select a set of build tools you have installed and configured correctly. Generally this just means running the installer, but for some compiler you may need to add them to your system PATH environment variable.
+
+Check `BuildStatic` if you want static libraries, uncheck if you want dynamic libraries.
+
+To control the kind of build `CMAKE_BUILD_TYPE` can be set to "Release" or "Debug". "Release" enables extra compiler optimizations and "Debug" disables all optimization but adds debugging symbols to the final build results. There are more options, but these are the most common.
+
+Once you are satisfied with the options hit the generate button and use the resulting build scripts.
 
