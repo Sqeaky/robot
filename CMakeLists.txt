@@ -258,7 +258,15 @@ if(SystemIsLinux)
     # expose some way that the cmake knows how to look for them
     find_library(Xtst_lib Xtst)
     find_library(Xinerama_lib Xinerama)
-    set(LinkLibraries ${LinkLibraries} ${Xtst_lib} ${Xinerama_lib})
+    find_package ( X11 REQUIRED )
+    if(X11_FOUND)
+          include_directories(${X11_INCLUDE_DIR})
+          link_libraries(${X11_LIBRARIES})
+          #message(STATUS " X11_INCLUDE_DIR: ${X11_INCLUDE_DIR}")
+          #message(STATUS " X11_LIBRARIES: ${X11_LIBRARIES}")
+    endif(X11_FOUND)
+
+    set(LinkLibraries ${LinkLibraries} ${Xtst_lib} ${Xinerama_lib} ${X11_LIBRARIES})
 endif(SystemIsLinux)
 
 if(SystemIsWindows AND CompilerIsGCC)
