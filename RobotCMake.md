@@ -119,13 +119,13 @@ There are 3 main parts to the CMake-gui.
 
 The upper portion accepts input about where to retrieve source and where to leave build artifacts. 
 
-![Image of CMake-gui Upper area](https://raw.githubusercontent.com/Sqeaky/robot/master/images/CMakeGuiScreenshotUpper.png)
+![Image of CMake-gui Upper area](https://raw.githubusercontent.com/Sqeaky/robot/master/Images/CMakeGuiScreenshotUpper.png)
 
 This is pretty self explanatory, put the folder with the source code you checked out in the first box. Then, put the folder you want your DLLs, SOs, EXEs, and BINs into the second box. These could be the same folder, but that needlessly complicates certain tasks (commiting to git, finding files, cleaning the build, etc...) and is considered poor form.
 
 The middle area is concerned with setting CMake variables. The widgets above the large central box are for managing variables and changing the view of the central variables box
 
-![Image of CMake-gui Middle area](https://raw.githubusercontent.com/Sqeaky/robot/master/images/CMakeGuiScreenshotMiddle.png)
+![Image of CMake-gui Middle area](https://raw.githubusercontent.com/Sqeaky/robot/master/Images/CMakeGuiScreenshotMiddle.png)
 
 If your version of CMake has a search box it is for filtering the view of the list of variables because some projects have hundreds. 
 
@@ -141,7 +141,7 @@ Variables that are new are displayed in red, variables that have existed for at 
 
 The bottom area includes buttons for making CMake run and displaying the results.
 
-![Image of CMake-gui Lower area](https://raw.githubusercontent.com/Sqeaky/robot/master/images/CMakeGuiScreenshotLower.png)
+![Image of CMake-gui Lower area](https://raw.githubusercontent.com/Sqeaky/robot/master/Images/CMakeGuiScreenshotLower.png)
 
 The large white output pane at the bottom is where almost all of the results will be shown. Errors and Warnings will show in red text and everything else in black.
 
