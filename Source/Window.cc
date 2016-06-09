@@ -996,6 +996,7 @@ void Window::SetMinimized (bool state)
 
 	// Ignore X errors
 	XDismissErrors xe;
+    SetState (mData->XWin, STATE_MAXIMIZE, false);
 	SetState (mData->XWin, STATE_MINIMIZE, state);
 
 #endif
