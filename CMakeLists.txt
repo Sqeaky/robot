@@ -270,9 +270,7 @@ if(SystemIsLinux)
 endif(SystemIsLinux)
 
 if(SystemIsWindows AND CompilerIsGCC)
-    find_library(Shlwapi_lib Shlwapi)
-    find_library(psapi_lib psapi)
-    set(LinkLibraries ${LinkLibraries} ${Shlwapi_lib} ${psapi_lib})
+    set(LinkLibraries ${LinkLibraries} Shlwapi psapi)
 endif(SystemIsWindows AND CompilerIsGCC)
 
 target_link_libraries(Robot "${LinkLibraries}")
