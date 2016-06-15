@@ -98,7 +98,7 @@ private:
 	std::shared_ptr<Data> mData;		// Shared information
 };
 
-#ifdef ROBOT_OS_WIN
+#ifdef ROBOT_VS_COMPILER_GROUP
 	#pragma warning (pop)
 #endif
 
